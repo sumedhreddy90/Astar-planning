@@ -33,5 +33,19 @@ input_parser.add_argument('--theta', default=30, help='action for angle')
 input_parser.add_argument('--Step', default=2, help='Step size')
 input_parser.add_argument('--Threshold', default=0.5, help='Threshold value for approximation')
 input_parser.add_argument('--GoalThreshold', default=2, help='Circle radius for the goal point')
+Argument = input_parser.parse_args()
+
+Argument = input_parser.parse_args()
+
+start_location = Argument.Start
+end_location = Argument.End
+radius = int(Argument.RobotRadius)
+clearance = int(Argument.ObjectClearance)
+Isanimation = int(Argument.IsAnimation)
+ff = int(Argument.FramesPerSecond)
+theta = int(Argument.theta)
+step = int(Argument.Step)
+threshold = float(Argument.Threshold)
+goal_threshold = float(Argument.GoalThreshold)
 aStarAlgo('test')
 cv2.waitKey(0);cv2.destroyAllWindows()
