@@ -9,13 +9,17 @@ from queue import PriorityQueue
 import time
 import imageio
 
-# Creating a class Node with visited_node, parent_node and cost as members
-class Node:
+class AStarAlgorithm:
 
-    def __init__(self, visited_node=False,parent_node=None, cost = math.inf ):
-        self.visited_node = visited_node
-        self.parent_node = parent_node
-        self.cost = cost
+    def __init__(self, source, destination, theta= 30, step_size= 1, threshold = 0.5, width=400, height=250, goal_threshold= 2, radius=1, clearance=5):
+        self.source = source
+        self.destination = destination
+        self.node_data = []
+        self.theta = theta
+        self.step_size = step_size
+        self.threshold = threshold
+        self.goal_threshold = goal_threshold
+        
 
 def aStarAlgo(input):
 
@@ -47,5 +51,10 @@ theta = int(Argument.theta)
 step = int(Argument.Step)
 threshold = float(Argument.Threshold)
 goal_threshold = float(Argument.GoalThreshold)
-aStarAlgo('test')
+
+source = [int(i) for i in start_location[1:-1].split(',')]
+goal = [int(i) for i in end_location[1:-1].split(',')]
+
+planner = aStarAlgo('test')
+planner.findPlan()
 cv2.waitKey(0);cv2.destroyAllWindows()
