@@ -31,7 +31,7 @@ class Map:
         # Boomerang
         boomerang = [[36,115,80,105,36],[65,40,70,150,65]]
         # Plotting obstacles
-        plt.plot(boomerang[0],boomerang[1])
+        plt.plot(boomerang[0],boomerang[1]) 
         plt.plot(hexagon[0],hexagon[1])
         plt.plot(x_coordinate, y_coordinate)
         return plotter
@@ -66,11 +66,19 @@ class AStarAlgorithm:
     def isValid(self):
 
         return True
+    def goalState(self, present_state):
+        x, y = present_state[1], present_state[2]
+        
 
     def findGoal(self):
         if self.isValid():
-           
-            return True    
+           while len(self.node_data)>0:
+               present_node = heappop(self.node_data)
+               previous_cost, previous_cost_to_come = present_node[0], present_node[4]
+               if self.goalState(present_node):
+
+
+                return True    
 
 def aStarAlgo(input):
      
@@ -107,5 +115,3 @@ source = [int(i) for i in start_location[1:-1].split(',')]
 goal = [int(i) for i in end_location[1:-1].split(',')]
 
 planner = aStarAlgo('test')
-planner.findPlan()
-cv2.waitKey(0);cv2.destroyAllWindows()
