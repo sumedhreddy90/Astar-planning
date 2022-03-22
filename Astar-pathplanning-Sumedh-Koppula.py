@@ -5,8 +5,6 @@ import time
 import matplotlib.pyplot as plt
 import argparse
 
-from sympy import limit
-
 class Map():
     def __init__(self, width = 400, height = 250, radius = 10, clearance = 5, threshold=0.5, theta = 30):
         self.threshold = threshold 
@@ -29,7 +27,7 @@ class Map():
         # Hexagon
         hexagon = [[210,245,245,210,175,175,210],[50,70,110,130,110,70,50]]
         # Boomerang
-        boomerang = [[46,125,90,115,46],[180,200,170,90,180]]
+        boomerang = [[36,115,80,105,36],[190,210,180,100,190]]
         # Plotting obstacles
         plt.plot(boomerang[0],boomerang[1]) 
         plt.plot(hexagon[0],hexagon[1])
@@ -76,11 +74,11 @@ class Map():
             return False
 
     def isBoomerang(self, i, j):
-        l1 = (0.316 * i + 173.608 - j) >= 0
-        l2 = (0.857 * i + 111.429 - j) <= 0
+        l1 = (0.316 * i + 173.608 + 10  - j) >= 0
+        l2 = (0.857 * i + 111.429 + 10 - j) <= 0
         lm = (-0.114 * i + 189.091 - j) <= 0
-        l3 = (-3.2 * i + 436 - j) >= 0
-        l4 = (-1.232 * i + 229.348 - j) <= 0
+        l3 = (-3.2 * i + 436 + 10 - j) >= 0
+        l4 = (-1.232 * i + 229.348 -15  - j) <= 0
 
         if (l1 and l2 and lm) or (l3 and l4 and not lm):
             return True
@@ -128,7 +126,7 @@ class Map():
                 self.des_x[i:(i+3000)], self.des_y[i:(i+3000)], units='xy' ,
                 scale = 1, headwidth = 0.1, headlength=0,
                 width=0.2)
-            plt.pause(0.0001)
+            plt.pause(0.001)
 
         X,Y,U,V = [],[],[],[] 
         for i in range(len(path)-1):
@@ -143,7 +141,7 @@ class Map():
             q = ax.quiver(X[i], Y[i], U[i], V[i], units='xy', 
                 scale=1, color='r', headwidth = 0.1, 
                 headlength=0, width = 0.7)
-            plt.pause(0.0001)
+            plt.pause(0.001)
         plt.ioff()
         plt.show()
 
@@ -248,11 +246,11 @@ class AStarAlgorithm():
 
         print("Error reaching goal postion")
         return
-# sample goals [380,200,0]
+# sample goals: [380,200,0] [100,225,0] [80,225,0] [380,230,0]
 # Input source, destination location and other parameters from the args/ commandline
 input_parser = argparse.ArgumentParser()
 input_parser.add_argument('--Start', default="[50,30,60]", help='Please enter a valid start location')
-input_parser.add_argument('--End', default="[100,225,0]", help='Please enter a valid destination location')
+input_parser.add_argument('--End', default="[380,230,0]", help='Please enter a valid destination location')
 input_parser.add_argument('--RobotRadius', default=10, help='')
 input_parser.add_argument('--ObjectClearance', default=5, help='Give robot clearance with objects')
 input_parser.add_argument('--theta', default=30, help='action for a_i')
