@@ -40,12 +40,12 @@ class Map():
     def isObstacle(self, m, n):
         if self.isBoundary(m,n):    
             return False
-        elif self.isCircle(m,250-n,(300,185),40):
+        elif self.isCircle(m,250-n,(300,65),40):
             return False
-        elif self.isHex(m,n):
-            return False
-        elif self.isBoomerang(m,n):
-            return False
+        # elif self.isHex(m,n):
+        #     return False
+        # elif self.isBoomerang(m,n):
+        #     return False
         else:
             return True
 
