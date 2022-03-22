@@ -27,9 +27,9 @@ class Map():
         x_coordinate = [x_circle+radii*math.cos(i) for i in np.arange(0,2*3.14,0.01)]
         y_coordinate = [y_circle+radii*math.sin(i) for i in np.arange(0,2*3.14,0.01)]
         # Hexagon
-        hexagon = [[200,235,235,200,165,165,200],[60,80,120,140,120,80,60]]
+        hexagon = [[210,245,245,210,175,175,210],[50,70,110,130,110,70,50]]
         # Boomerang
-        boomerang = [[36,115,80,105,36],[190,210,180,100,190]]
+        boomerang = [[46,125,90,115,46],[180,200,170,90,180]]
         # Plotting obstacles
         plt.plot(boomerang[0],boomerang[1]) 
         plt.plot(hexagon[0],hexagon[1])
@@ -42,10 +42,10 @@ class Map():
             return False
         elif self.isCircle(m,250-n,(300,65),40):
             return False
-        # elif self.isHex(m,n):
-        #     return False
-        # elif self.isBoomerang(m,n):
-        #     return False
+        elif self.isHex(m,n):
+            return False
+        elif self.isBoomerang(m,n):
+            return False
         else:
             return True
 
@@ -63,12 +63,12 @@ class Map():
 
 
     def isHex(self, i, j):
-        l1 = (-0.575 * i + 169+10 - j) <= 0
-        l2 = (160-10 - i) <= 0
-        l3 = (0.575 * i + 31-10 - j) >= 0
-        l4 = (-0.575 * i + 261+10 - j) >= 0
-        l5 = (240-10 - i) >= 0
-        l6 = (0.575 * i - 61+10 - j) <= 0
+        l1 = (-0.575 * i + 169+5 - j) <= 0
+        l2 = (160+5 - i) <= 0
+        l3 = (0.575 * i + 31-5 - j) >= 0
+        l4 = (-0.575 * i + 261+5 - j) >= 0
+        l5 = (240-5 - i) >= 0
+        l6 = (0.575 * i - 61+5 - j) <= 0
 
         if l1 and l2 and l3 and l4 and l5 and l6:
             return True
@@ -76,16 +76,17 @@ class Map():
             return False
 
     def isBoomerang(self, i, j):
-        l1 = (0.316 * i + 178.608 - j) >= 0
-        l2 = (0.857 * i + 106.429 - 10 - j) <= 0
-        lmid = (-0.114 * i + 189.091 - j) <= 0
-        l3 = (-3.2 * i + 450 - j) >= 0
-        l4 = (-1.232 * i + 220.348 - j) <= 0
+        l1 = (0.316 * i + 173.608 - j) >= 0
+        l2 = (0.857 * i + 111.429 - j) <= 0
+        lm = (-0.114 * i + 189.091 - j) <= 0
+        l3 = (-3.2 * i + 436 - j) >= 0
+        l4 = (-1.232 * i + 229.348 - j) <= 0
 
-        if (l1 and l2 and lmid) or (l3 and l4 and not lmid):
+        if (l1 and l2 and lm) or (l3 and l4 and not lm):
             return True
         else:
             return False
+
 
     def isExplored(self, n):
         x = int(round(n[1]/self.threshold))
@@ -140,7 +141,7 @@ class Map():
             plt.xlim(0,400)
             plt.ylim(0,250)
             q = ax.quiver(X[i], Y[i], U[i], V[i], units='xy', 
-                scale=1, color='y', headwidth = 0.1, 
+                scale=1, color='r', headwidth = 0.1, 
                 headlength=0, width = 0.7)
             plt.pause(0.0001)
         plt.ioff()
@@ -216,7 +217,7 @@ class AStarAlgorithm():
                     print(" Robot reached destination location ")
                     print("Goal reached at : ",present_node)
                     trace_path = self.backTracePath(present_node)
-                    print(trace_path)
+                    print("Path Planned: ",trace_path)
                     self.map_with_obstacles.mapPlotter(trace_path)
                     return
                 for a in self.action_list:
@@ -247,15 +248,13 @@ class AStarAlgorithm():
 
         print("Error reaching goal postion")
         return
-
+# sample goals [380,200,0]
 # Input source, destination location and other parameters from the args/ commandline
 input_parser = argparse.ArgumentParser()
 input_parser.add_argument('--Start', default="[50,30,60]", help='Please enter a valid start location')
-input_parser.add_argument('--End', default="[380,200,0]", help='Please enter a valid destination location')
+input_parser.add_argument('--End', default="[100,225,0]", help='Please enter a valid destination location')
 input_parser.add_argument('--RobotRadius', default=10, help='')
 input_parser.add_argument('--ObjectClearance', default=5, help='Give robot clearance with objects')
-input_parser.add_argument('--IsAnimation', default=1, help='1 - True 0 - false')
-input_parser.add_argument('--FramesPerSecond', default=30, help='frame rate')
 input_parser.add_argument('--theta', default=30, help='action for a_i')
 input_parser.add_argument('--Step', default=2, help='Step size')
 input_parser.add_argument('--Threshold', default=0.5, help='Threshold value for approximation')
@@ -267,8 +266,6 @@ start_location = args.Start
 end_location = args.End
 radius = int(args.RobotRadius)
 clearance = int(args.ObjectClearance)
-animation = int(args.IsAnimation)
-framerate = int(args.FramesPerSecond)
 theta = int(args.theta)
 StepSize = int(args.Step)
 Threshold = float(args.Threshold)
